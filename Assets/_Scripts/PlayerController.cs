@@ -6,12 +6,12 @@ public class PlayerController : MonoBehaviour
 {
     public Windshield windshield;
     public GameObject player;
-    public GameObject camera;
+    public GameObject mainCamera;
 
     public float velocity = 0.7f;
     public bool walking = false;
 
-    public float gravity = 9.8f;
+    //public float gravity = 9.8f;
 
     private CharacterController controller;
     private Clicker cliker = new Clicker();
@@ -25,6 +25,11 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
+    {
+        MovePlayer();
+    }
+
+    private void MovePlayer()
     {
         if (cliker.clicked())
         {
@@ -48,6 +53,13 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        CollideTrophy(other);
+        CollideGhost(other);
+        CollideTallerItem(other);
+    }
+
+    private void CollideTrophy(Collider other)
+    {
         if (other.gameObject.CompareTag("Trophy"))
         {
             walking = !walking;
@@ -55,16 +67,22 @@ public class PlayerController : MonoBehaviour
             //controller.Move(new Vector3(3.0f, 0.5f, 3.0f));
             Destroy(other.gameObject);
         }
+    }
 
+    private void CollideGhost(Collider other)
+    {
         if (other.gameObject.CompareTag("Ghost"))
         {
             windshield.AttackedByGhost();
             Destroy(other.gameObject);
         }
+    }
 
+    private void CollideTallerItem(Collider other)
+    {
         if (other.gameObject.CompareTag("TallerItem"))
         {
-            camera.transform.position = new Vector3(player.transform.position.x, 3f, player.transform.position.z);
+            mainCamera.transform.position = new Vector3(player.transform.position.x, 3f, player.transform.position.z);
             Destroy(other.gameObject);
         }
     }

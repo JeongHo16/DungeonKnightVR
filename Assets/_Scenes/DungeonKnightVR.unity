@@ -447,10 +447,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windshield: {fileID: 1459327643}
   player: {fileID: 279293059}
-  camera: {fileID: 534669902}
+  mainCamera: {fileID: 534669902}
   velocity: 0.7
   walking: 0
-  gravity: 9.8
 --- !u!4 &279293062
 Transform:
   m_ObjectHideFlags: 0
