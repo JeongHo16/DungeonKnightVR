@@ -48,8 +48,15 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Trophy"))
         {
-            controller.Move(Spot.firstSpot);
+            walking = !walking;
+            //controller.Move(Spot.firstSpot);
+            controller.Move(new Vector3(3.0f, 0.5f, 3.0f));
             Destroy(other.gameObject);
         }
+        if (other.gameObject.CompareTag("Ghost"))
+        {
+
+        }
+
     }
 }

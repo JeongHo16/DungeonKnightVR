@@ -6,15 +6,22 @@ using UnityEngine.UI;
 public class Windshield : MonoBehaviour
 {
     public Text scoreText;
+    public Text hpText;
     public GameObject trophys;
+
+    private int HP = 3;
+
     //public Sprite blackImage;
 
     private void Start()
     {
-        ShowCurrentState();
+
     }
 
-
+    private void Update()
+    {
+        ShowCurrentState();
+    }
 
     private void ShowCurrentState()
     {
