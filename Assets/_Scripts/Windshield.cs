@@ -6,17 +6,20 @@ using UnityEngine.UI;
 public class Windshield : MonoBehaviour
 {
     public Text scoreText;
-    public GameObject jewels;
+    public GameObject trophys;
+    //public Sprite blackImage;
 
-    void Update()
+    private void Start()
     {
         ShowCurrentState();
     }
 
+
+
     private void ShowCurrentState()
     {
-        if (jewels.transform.childCount != 0)
-            scoreText.text = "남은 보석 수: " + jewels.transform.childCount;
+        if (trophys.transform.childCount != 0)
+            scoreText.text = "<b>남은 보석 수: " + trophys.transform.childCount + "</b>";
         else
             scoreText.text = "Game Clear";
     }

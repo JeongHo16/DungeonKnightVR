@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameObject player;
+
     public float velocity = 0.7f;
     public bool walking = false;
 
@@ -44,11 +46,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Jewel"))
+        if (other.gameObject.CompareTag("Trophy"))
         {
-            //other.gameObject.SetActive(false);
+            controller.Move(Spot.firstSpot);
             Destroy(other.gameObject);
-            Debug.Log("아이템 획득");
-        }        
+        }
     }
 }
