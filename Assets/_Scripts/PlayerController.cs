@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public Windshield windshield;
     public GameObject player;
+    public GameObject camera;
 
     public float velocity = 0.7f;
     public bool walking = false;
@@ -58,6 +59,12 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ghost"))
         {
             windshield.AttackedByGhost();
+            Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("TallerItem"))
+        {
+            camera.transform.position = new Vector3(player.transform.position.x, 3f, player.transform.position.z);
             Destroy(other.gameObject);
         }
     }

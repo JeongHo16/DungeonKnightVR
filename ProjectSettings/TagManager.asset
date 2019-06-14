@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Trophy
   - Ghost
+  - TallerItem
   layers:
   - Default
   - TransparentFX
