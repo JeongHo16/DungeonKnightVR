@@ -23,11 +23,18 @@ public class Windshield : MonoBehaviour
         ShowCurrentState();
     }
 
+    public void AttackedByGhost()
+    {
+        HP -= 1;
+    }
+
     private void ShowCurrentState()
     {
         if (trophys.transform.childCount != 0)
             scoreText.text = "<b>남은 보석 수: " + trophys.transform.childCount + "</b>";
         else
             scoreText.text = "Game Clear";
+
+        hpText.text = "<b>X" + HP + "</b>";
     }
 }

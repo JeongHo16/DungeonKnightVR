@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public Windshield windshield;
     public GameObject player;
 
     public float velocity = 0.7f;
@@ -50,13 +51,14 @@ public class PlayerController : MonoBehaviour
         {
             walking = !walking;
             //controller.Move(Spot.firstSpot);
-            controller.Move(new Vector3(3.0f, 0.5f, 3.0f));
+            //controller.Move(new Vector3(3.0f, 0.5f, 3.0f));
             Destroy(other.gameObject);
         }
+
         if (other.gameObject.CompareTag("Ghost"))
         {
-
+            windshield.AttackedByGhost();
+            Destroy(other.gameObject);
         }
-
     }
 }
