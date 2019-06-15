@@ -16,18 +16,17 @@ public class Windshield : MonoBehaviour
 
     private void Start()
     {
-        stageTime = 5f;
+        //stageTime = 5f;
     }
 
     private void Update()
     {
         ShowCurrentState();
-        Timer();
+        StageTimer();
     }
 
-    private void Timer()
+    private void StageTimer()
     {
-        //stageTimer.maxValue = stageTime;
         if (stageTime > 0f)
         {
             stageTime -= Time.deltaTime;
@@ -43,16 +42,9 @@ public class Windshield : MonoBehaviour
 
     private void ShowCurrentState()
     {
-        UpdateTrophy();
+        CurrentStage();
         //UpdateHP();
     }
-
-    //private void UpdateHP()
-    //{
-    //    hpText.text = "<b>X" + HP + "</b>";
-
-    //    if (HP == 0) scoreText.text = "<b>Game Over</b>";
-    //}
 
     public IEnumerator TallerTime()
     {
@@ -71,16 +63,11 @@ public class Windshield : MonoBehaviour
         tallerTimer.value = 0f;
     }
 
-    private void UpdateTrophy()
+    private void CurrentStage()
     {
         if (trophys.transform.childCount != 0)
             stageText.text = "<b>Stage " + (5 - trophys.transform.childCount) + "</b>";
         else
             stageText.text = "<b>Game Clear</b>";
     }
-
-    //public void AttackedByGhost()
-    //{
-    //    HP -= 1;
-    //}
 }
