@@ -49,6 +49,7 @@ public class Windshield : MonoBehaviour
     public IEnumerator GoToTheNextStage(float duration, string text)
     {
         StopCoroutine("StageTimer");
+        timeText.text = "<b>00:00</b>";
         BoolStates.isCount = false;
 
         if (stageNumber != 4)

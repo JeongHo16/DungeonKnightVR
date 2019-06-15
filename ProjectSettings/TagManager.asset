@@ -5,8 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Trophy
-  - Ghost
   - TallerItem
+  - SpeedItem
+  - Ghost
+  - Item
   layers:
   - Default
   - TransparentFX
