@@ -103,7 +103,7 @@ public class Windshield : MonoBehaviour
         while (elaspedTime < tallerTime)
         {
             elaspedTime += Time.deltaTime;
-            tallerTimer.value += elaspedTime;
+            tallerTimer.value = Mathf.Lerp(0f, tallerTime, elaspedTime / 3f);
             yield return null;
         }
 

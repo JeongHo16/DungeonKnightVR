@@ -58,35 +58,43 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.CompareTag("TallerItem"))
         {
+            Debug.Log("충돌");
             CollideTallerItem(other);
+        }
+
+        if (other.gameObject.CompareTag("Item"))
+        {
+            CollideSpeedItem(other);
         }
     }
 
     private void CollideTrophy(Collider other)
     {
-        //if (other.gameObject.CompareTag("Trophy"))
-        {
-            walking = !walking;
-            Destroy(other.gameObject);
-            StartCoroutine(windshield.GoToTheNextStage(3f, "<b>Stage Claer</b>"));
-        }
+        walking = !walking;
+        Destroy(other.gameObject);
+        StartCoroutine(windshield.GoToTheNextStage(3f, "<b>Stage Claer</b>"));
     }
-
 
     private void CollideTallerItem(Collider other)
     {
-        //if (other.gameObject.CompareTag("TallerItem"))
-        {
-            body.transform.position = new Vector3(player.transform.position.x, 3f, player.transform.position.z);
-            Destroy(other.gameObject);
-            StartCoroutine(windshield.TallerTime());
-            body.transform.position = new Vector3(player.transform.position.x, 1f, player.transform.position.z);
-        }
+        body.transform.position = new Vector3(player.transform.position.x, 3f, player.transform.position.z);
+        Destroy(other.gameObject);
+        StartCoroutine(windshield.TallerTime());
+        //body.transform.position = new Vector3(player.transform.position.x, 1f, player.transform.position.z);
     }
 
     private void CollideSpeedItem(Collider other)
     {
 
+    }
+
+
+    private string GetItemType()
+    {
+        if (Random.Range(0f, 1f) > 0.5)
+            return "TallerItem";
+        else
+            return "SpeedItem";
     }
 
     //private void CollideGhost(Collider other)

@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 7363802066871339829}
   - component: {fileID: 3949640980234809069}
   - component: {fileID: 5526927151255720630}
-  - component: {fileID: 5117770695634221214}
+  - component: {fileID: 5230391294827654348}
   m_Layer: 0
   m_Name: ItemBox_Top
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,20 +79,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &5117770695634221214
-MeshCollider:
+--- !u!65 &5230391294827654348
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3782824924346583430}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300002, guid: ea6da4a0ebadb704691a6fa2d03f817b, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.25989914, y: 0.09198646, z: 0.19457524}
+  m_Center: {x: 0, y: 0.04112892, z: 0.09643626}
 --- !u!1 &7682973167313739650
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,7 +103,7 @@ GameObject:
   - component: {fileID: 6443422930060573324}
   - component: {fileID: 3632194791594625003}
   - component: {fileID: 3527006718694782180}
-  - component: {fileID: 1081921589603280160}
+  - component: {fileID: 3274040436590044706}
   m_Layer: 0
   m_Name: ItemBox
   m_TagString: Item
@@ -120,7 +119,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7682973167313739650}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 7363802066871339829}
@@ -173,17 +172,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &1081921589603280160
-MeshCollider:
+--- !u!65 &3274040436590044706
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7682973167313739650}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300000, guid: ea6da4a0ebadb704691a6fa2d03f817b, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.27907366, y: 0.1311018, z: 0.20238411}
+  m_Center: {x: 0, y: 0.0655509, z: -0.0029009245}
