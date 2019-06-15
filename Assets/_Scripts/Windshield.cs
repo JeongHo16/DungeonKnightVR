@@ -12,18 +12,33 @@ public class Windshield : MonoBehaviour
     public Text timeText;
     public GameObject trophys;
 
-    //private int HP = 3;
-
-    //public Sprite blackImage;
+    private float stageTime;
 
     private void Start()
     {
-
+        stageTime = 5f;
     }
 
     private void Update()
     {
         ShowCurrentState();
+        Timer();
+    }
+
+    private void Timer()
+    {
+        //stageTimer.maxValue = stageTime;
+        if (stageTime > 0f)
+        {
+            stageTime -= Time.deltaTime;
+            timeText.text = "<b>" + ((Mathf.Round(stageTime * 100f)) / 100f).ToString() + "</b>";
+            stageTimer.value = Mathf.Lerp(0f, stageTimer.maxValue, (5f - stageTime) / 5f);
+        }
+        else
+        {
+            timeText.text = "<b>Time Out</b>";
+            //stageTimer.value = 0f;
+        }
     }
 
     private void ShowCurrentState()
