@@ -19,17 +19,35 @@ public class Windshield : MonoBehaviour
 
     private void Start()
     {
-        CurrentStage();
-        stageTime = initGame.stageTimes[stageNumber - 1].minute;
+        StartCoroutine("InitCount");
     }
 
-    private void Update()
+    private IEnumerator InitCount()
     {
-        StageTimer();
+        BoolStates.isCount = false;
+        int Count = 3;
+
+        while (Count > 0)
+        {
+            stageText.text = "<b>" + Count.ToString() + "</b>";
+            yield return new WaitForSeconds(1f);
+            Count -= 1;
+        }
+
+        InitWindShield();
+        BoolStates.isCount = true;
+    }
+
+    private void InitWindShield()
+    {
+        CurrentStage();
+        stageTime = initGame.stageTimes[0].minute;
+        StartCoroutine("StageTimer");
     }
 
     public IEnumerator ShowTextForShortTime(float duration, string text)
     {
+        StopCoroutine("StageTimer");
         stageText.text = text;
         yield return new WaitForSeconds(duration);
         CurrentStage();
@@ -43,21 +61,33 @@ public class Windshield : MonoBehaviour
         return "<b>" + minute + ":" + second + "</b>";
     }
 
-    private void StageTimer()
+    public IEnumerator StageTimer()
     {
-        if (stageTime > 0f)
+        while (stageTime > 0f)
         {
             stageTime -= Time.deltaTime;
             timeText.text = ConvertSecondsLikeClock(stageTime);
             stageTimer.value = Mathf.Lerp(0f, 1f, (initGame.stageTimes[stageNumber - 1].minute - stageTime)
                 / initGame.stageTimes[stageNumber - 1].minute);
+            yield return null;
         }
-        else
-        {
-            timeText.text = "<b>Time Out</b>";
-            //stageTimer.value = 0f;
-        }
+        timeText.text = "<b>Time Out</b>";
     }
+
+    //private void StageTimer()
+    //{
+    //    if (stageTime > 0f)
+    //    {
+    //        stageTime -= Time.deltaTime;
+    //        timeText.text = ConvertSecondsLikeClock(stageTime);
+    //        stageTimer.value = Mathf.Lerp(0f, 1f, (initGame.stageTimes[stageNumber - 1].minute - stageTime)
+    //            / initGame.stageTimes[stageNumber - 1].minute);
+    //    }
+    //    else
+    //    {
+    //        timeText.text = "<b>Time Out</b>";
+    //    }
+    //}
 
     public IEnumerator TallerTime()
     {

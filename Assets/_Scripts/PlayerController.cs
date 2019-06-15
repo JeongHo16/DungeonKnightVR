@@ -28,9 +28,10 @@ public class PlayerController : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (cliker.clicked())
+        if (BoolStates.isCount)
         {
-            walking = !walking;
+            if (cliker.clicked())
+                walking = !walking;
         }
 
         if (walking)
