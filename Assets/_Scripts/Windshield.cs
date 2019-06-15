@@ -53,7 +53,6 @@ public class Windshield : MonoBehaviour
 
         if (stageNumber != 4)
         {
-            Debug.Log(stageNumber);
             stageText.text = text;
             yield return new WaitForSeconds(duration);
             BoolStates.isCount = true;
@@ -81,13 +80,14 @@ public class Windshield : MonoBehaviour
 
     private IEnumerator StageTimer()
     {
-        stageTime = initGame.stageTimes[stageNumber - 1].minute;
+        //stageTime = initGame.stageTimes[stageNumber - 1].minute;
+        stageTime = initGame.stageTimes[stageNumber - 1];
         while (stageTime > 0f)
         {
             stageTime -= Time.deltaTime;
             timeText.text = ConvertSecondsLikeClock(stageTime);
-            stageTimer.value = Mathf.Lerp(0f, 1f, (initGame.stageTimes[stageNumber - 1].minute - stageTime)
-                / initGame.stageTimes[stageNumber - 1].minute);
+            stageTimer.value = Mathf.Lerp(0f, 1f, (initGame.stageTimes[stageNumber - 1] - stageTime)
+                / initGame.stageTimes[stageNumber - 1]);
             yield return null;
         }
         timeText.text = "<b>Time Out</b>";

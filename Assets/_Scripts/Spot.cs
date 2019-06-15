@@ -6,9 +6,9 @@ class Spot
 {
     public static Vector3[] spots =
         {
-        new Vector3(-3.0f, 0.5f, 3.0f),
-        new Vector3(3.0f, 0.5f, 3.0f),
-        new Vector3(-3.0f, 0.5f, -3.0f),
-        new Vector3(3.0f, 0.5f, -3.0f)
+        new Vector3(-3.0f, 0f, 3.0f),
+        new Vector3(3.0f, 0f, 3.0f),
+        new Vector3(-3.0f, 0f, -3.0f),
+        new Vector3(3.0f, 0f, -3.0f)
     };
 }
