@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public Windshield windshield;
     public GameObject player;
-    public GameObject mainCamera;
+    public GameObject body;
 
     public float velocity = 0.7f;
     public bool walking = false;
@@ -82,8 +82,13 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("TallerItem"))
         {
-            mainCamera.transform.position = new Vector3(player.transform.position.x, 3f, player.transform.position.z);
+            body.transform.position = new Vector3(player.transform.position.x, 3f, player.transform.position.z);
             Destroy(other.gameObject);
         }
     }
+
+    //private IEnumerator EventTime()
+    //{
+
+    //}
 }

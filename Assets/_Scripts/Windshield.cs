@@ -31,7 +31,10 @@ public class Windshield : MonoBehaviour
 
     private void UpdateHP()
     {
-        hpText.text = "<b>X" + HP + "</b>";
+        if (HP != 0)
+            hpText.text = "<b>X" + HP + "</b>";
+        else
+            hpText.text = "<b>Game Clear</b>";
     }
 
     private void UpdateTrophy()
@@ -39,7 +42,7 @@ public class Windshield : MonoBehaviour
         if (trophys.transform.childCount != 0)
             scoreText.text = "<b>남은 보석 수: " + trophys.transform.childCount + "</b>";
         else
-            scoreText.text = "Game Clear";
+            scoreText.text = "<b>Game Clear</b>";
     }
 
     public void AttackedByGhost()
