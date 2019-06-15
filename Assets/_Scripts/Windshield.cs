@@ -17,12 +17,14 @@ public class Windshield : MonoBehaviour
     private float stageTime;
     private int stageNumber;
 
-    private void Start()
+    private IEnumerator Start()
     {
-        StartCoroutine("InitCount");
+        StartCoroutine("CountForStageStart");
+        yield return new WaitForSeconds(3f);
+        InitWindShield();
     }
 
-    private IEnumerator InitCount()
+    private IEnumerator CountForStageStart()
     {
         int Count = 3;
         BoolStates.isCount = false;
@@ -34,24 +36,39 @@ public class Windshield : MonoBehaviour
             Count -= 1;
         }
 
-        InitWindShield();
+        //InitWindShield();
         BoolStates.isCount = true;
     }
 
     private void InitWindShield()
     {
         CurrentStage();
-        //stageTime = initGame.stageTimes[0].minute;
         StartCoroutine("StageTimer");
     }
 
     public IEnumerator GoToTheNextStage(float duration, string text)
     {
         StopCoroutine("StageTimer");
-        stageText.text = text;
-        yield return new WaitForSeconds(duration);
-        CurrentStage();
-        StartCoroutine("StageTimer");
+        BoolStates.isCount = false;
+
+        if (stageNumber != 4)
+        {
+            Debug.Log(stageNumber);
+            stageText.text = text;
+            yield return new WaitForSeconds(duration);
+            BoolStates.isCount = true;
+
+            StartCoroutine("CountForStageStart");
+            yield return new WaitForSeconds(duration);
+
+            CurrentStage();
+            StartCoroutine("StageTimer");
+        }
+        else
+        {
+            stageText.text = "<b>Game Clear</b>";
+            BoolStates.isCount = true;
+        }
     }
 
     private string ConvertSecondsLikeClock(float seconds)
@@ -62,7 +79,7 @@ public class Windshield : MonoBehaviour
         return "<b>" + minute + ":" + second + "</b>";
     }
 
-    public IEnumerator StageTimer()
+    private IEnumerator StageTimer()
     {
         stageTime = initGame.stageTimes[stageNumber - 1].minute;
         while (stageTime > 0f)
@@ -75,21 +92,6 @@ public class Windshield : MonoBehaviour
         }
         timeText.text = "<b>Time Out</b>";
     }
-
-    //private void StageTimer()
-    //{
-    //    if (stageTime > 0f)
-    //    {
-    //        stageTime -= Time.deltaTime;
-    //        timeText.text = ConvertSecondsLikeClock(stageTime);
-    //        stageTimer.value = Mathf.Lerp(0f, 1f, (initGame.stageTimes[stageNumber - 1].minute - stageTime)
-    //            / initGame.stageTimes[stageNumber - 1].minute);
-    //    }
-    //    else
-    //    {
-    //        timeText.text = "<b>Time Out</b>";
-    //    }
-    //}
 
     public IEnumerator TallerTime()
     {
@@ -113,7 +115,5 @@ public class Windshield : MonoBehaviour
         stageNumber = (5 - trophys.transform.childCount);
         if (trophys.transform.childCount != 0)
             stageText.text = "<b>Stage " + stageNumber + "</b>";
-        else
-            stageText.text = "<b>Game Clear</b>";
     }
 }
