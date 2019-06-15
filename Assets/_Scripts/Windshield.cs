@@ -24,8 +24,8 @@ public class Windshield : MonoBehaviour
 
     private IEnumerator InitCount()
     {
-        BoolStates.isCount = false;
         int Count = 3;
+        BoolStates.isCount = false;
 
         while (Count > 0)
         {
@@ -41,16 +41,17 @@ public class Windshield : MonoBehaviour
     private void InitWindShield()
     {
         CurrentStage();
-        stageTime = initGame.stageTimes[0].minute;
+        //stageTime = initGame.stageTimes[0].minute;
         StartCoroutine("StageTimer");
     }
 
-    public IEnumerator ShowTextForShortTime(float duration, string text)
+    public IEnumerator GoToTheNextStage(float duration, string text)
     {
         StopCoroutine("StageTimer");
         stageText.text = text;
         yield return new WaitForSeconds(duration);
         CurrentStage();
+        StartCoroutine("StageTimer");
     }
 
     private string ConvertSecondsLikeClock(float seconds)
@@ -63,6 +64,7 @@ public class Windshield : MonoBehaviour
 
     public IEnumerator StageTimer()
     {
+        stageTime = initGame.stageTimes[stageNumber - 1].minute;
         while (stageTime > 0f)
         {
             stageTime -= Time.deltaTime;
@@ -106,7 +108,7 @@ public class Windshield : MonoBehaviour
         tallerTimer.value = 0f;
     }
 
-    public void CurrentStage()
+    private void CurrentStage()
     {
         stageNumber = (5 - trophys.transform.childCount);
         if (trophys.transform.childCount != 0)

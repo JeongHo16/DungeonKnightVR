@@ -51,30 +51,42 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        CollideTrophy(other);
-        CollideTallerItem(other);
+        if (other.gameObject.CompareTag("Trophy"))
+        {
+            CollideTrophy(other);
+        }
+
+        if (other.gameObject.CompareTag("TallerItem"))
+        {
+            CollideTallerItem(other);
+        }
     }
 
     private void CollideTrophy(Collider other)
     {
-        if (other.gameObject.CompareTag("Trophy"))
+        //if (other.gameObject.CompareTag("Trophy"))
         {
             walking = !walking;
             Destroy(other.gameObject);
-            StartCoroutine(windshield.ShowTextForShortTime(3f, "<b>Stage Claer</b>"));
+            StartCoroutine(windshield.GoToTheNextStage(3f, "<b>Stage Claer</b>"));
         }
     }
 
 
     private void CollideTallerItem(Collider other)
     {
-        if (other.gameObject.CompareTag("TallerItem"))
+        //if (other.gameObject.CompareTag("TallerItem"))
         {
             body.transform.position = new Vector3(player.transform.position.x, 3f, player.transform.position.z);
             Destroy(other.gameObject);
             StartCoroutine(windshield.TallerTime());
             body.transform.position = new Vector3(player.transform.position.x, 1f, player.transform.position.z);
         }
+    }
+
+    private void CollideSpeedItem(Collider other)
+    {
+
     }
 
     //private void CollideGhost(Collider other)
