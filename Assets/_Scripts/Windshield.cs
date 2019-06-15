@@ -31,10 +31,9 @@ public class Windshield : MonoBehaviour
 
     private void UpdateHP()
     {
-        if (HP != 0)
-            hpText.text = "<b>X" + HP + "</b>";
-        else
-            hpText.text = "<b>Game Clear</b>";
+        hpText.text = "<b>X" + HP + "</b>";
+
+        if (HP == 0) scoreText.text = "<b>Game Over</b>";
     }
 
     private void UpdateTrophy()
