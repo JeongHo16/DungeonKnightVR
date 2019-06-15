@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         CollideTrophy(other);
-        CollideGhost(other);
+        //CollideGhost(other);
         CollideTallerItem(other);
     }
 
@@ -69,14 +69,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void CollideGhost(Collider other)
-    {
-        if (other.gameObject.CompareTag("Ghost"))
-        {
-            windshield.AttackedByGhost();
-            Destroy(other.gameObject);
-        }
-    }
+    //private void CollideGhost(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Ghost"))
+    //    {
+    //        windshield.AttackedByGhost();
+    //        Destroy(other.gameObject);
+    //    }
+    //}
 
     private void CollideTallerItem(Collider other)
     {
@@ -84,6 +84,8 @@ public class PlayerController : MonoBehaviour
         {
             body.transform.position = new Vector3(player.transform.position.x, 3f, player.transform.position.z);
             Destroy(other.gameObject);
+            StartCoroutine(windshield.TallerTime());
+            body.transform.position = new Vector3(player.transform.position.x, 1f, player.transform.position.z);
         }
     }
 
