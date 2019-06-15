@@ -555,7 +555,7 @@ MonoBehaviour:
   windshield: {fileID: 1459327643}
   player: {fileID: 279293059}
   body: {fileID: 536383008}
-  velocity: 0.7
+  velocity: 1
   walking: 0
 --- !u!4 &279293062
 Transform:
@@ -1082,7 +1082,7 @@ PrefabInstance:
     - target: {fileID: 7682973167313739650, guid: 39aaf91619e0b794f9cbb72cae768241,
         type: 3}
       propertyPath: m_TagString
-      value: TallerItem
+      value: SpeedItem
       objectReference: {fileID: 0}
     - target: {fileID: 6443422930060573324, guid: 39aaf91619e0b794f9cbb72cae768241,
         type: 3}
@@ -1142,7 +1142,7 @@ PrefabInstance:
     - target: {fileID: 3782824924346583430, guid: 39aaf91619e0b794f9cbb72cae768241,
         type: 3}
       propertyPath: m_TagString
-      value: TallerItem
+      value: SpeedItem
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39aaf91619e0b794f9cbb72cae768241, type: 3}
@@ -1781,9 +1781,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initGame: {fileID: 97390655}
-  stageTimer: {fileID: 310907184}
-  speedTimer: {fileID: 1143548033}
-  tallerTimer: {fileID: 1591850539}
+  playerController: {fileID: 279293061}
+  stageTimerSlider: {fileID: 310907184}
+  speedTimerSlider: {fileID: 1143548033}
+  tallerTimerSlider: {fileID: 1591850539}
   stageText: {fileID: 338517310}
   timeText: {fileID: 1850665504}
   trophys: {fileID: 638154514}

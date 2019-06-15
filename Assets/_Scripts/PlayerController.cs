@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     public GameObject player;
     public GameObject body;
 
-    public float velocity = 0.7f;
+    public float velocity = 1f;
     public bool walking = false;
 
     private CharacterController controller;
@@ -58,11 +58,10 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.CompareTag("TallerItem"))
         {
-            Debug.Log("충돌");
             CollideTallerItem(other);
         }
 
-        if (other.gameObject.CompareTag("Item"))
+        if (other.gameObject.CompareTag("SpeedItem"))
         {
             CollideSpeedItem(other);
         }
@@ -79,13 +78,13 @@ public class PlayerController : MonoBehaviour
     {
         body.transform.position = new Vector3(player.transform.position.x, 3f, player.transform.position.z);
         Destroy(other.gameObject);
-        StartCoroutine(windshield.TallerTime());
-        //body.transform.position = new Vector3(player.transform.position.x, 1f, player.transform.position.z);
+        StartCoroutine(windshield.TallerTimer());
     }
 
     private void CollideSpeedItem(Collider other)
     {
-
+        Destroy(other.gameObject);
+        StartCoroutine(windshield.SpeedUpTimer());
     }
 
 

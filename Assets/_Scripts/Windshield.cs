@@ -6,10 +6,11 @@ using UnityEngine.UI;
 public class Windshield : MonoBehaviour
 {
     public InitGame initGame;
+    public PlayerController playerController;
 
-    public Slider stageTimer;
-    public Slider speedTimer;
-    public Slider tallerTimer;
+    public Slider stageTimerSlider;
+    public Slider speedTimerSlider;
+    public Slider tallerTimerSlider;
     public Text stageText;
     public Text timeText;
     public GameObject trophys;
@@ -24,7 +25,7 @@ public class Windshield : MonoBehaviour
         InitWindShield();
     }
 
-    private IEnumerator CountForStageStart()
+    private IEnumerator CountForStageStart() //시작전 3, 2, 1 세는 함수
     {
         int Count = 3;
         BoolStates.isCount = false;
@@ -36,23 +37,22 @@ public class Windshield : MonoBehaviour
             Count -= 1;
         }
 
-        //InitWindShield();
         BoolStates.isCount = true;
     }
 
-    private void InitWindShield()
+    private void InitWindShield() //윈드쉴드 스테이지 갱신, 타이머 시작
     {
         CurrentStage();
         StartCoroutine("StageTimer");
     }
 
-    public IEnumerator GoToTheNextStage(float duration, string text)
-    {
+    public IEnumerator GoToTheNextStage(float duration, string text) //클리어 메시지 나타내고, 카운트 세고, InitWindShield()
+    {                                                                //스테이지 4에서는 game clear
         StopCoroutine("StageTimer");
         timeText.text = "<b>00:00</b>";
         BoolStates.isCount = false;
 
-        if (stageNumber != 4)
+        if (stageNumber != 4) //stage 4 시작시 까지
         {
             stageText.text = text;
             yield return new WaitForSeconds(duration);
@@ -61,8 +61,7 @@ public class Windshield : MonoBehaviour
             StartCoroutine("CountForStageStart");
             yield return new WaitForSeconds(duration);
 
-            CurrentStage();
-            StartCoroutine("StageTimer");
+            InitWindShield();
         }
         else
         {
@@ -71,7 +70,21 @@ public class Windshield : MonoBehaviour
         }
     }
 
-    private string ConvertSecondsLikeClock(float seconds)
+    private IEnumerator StageTimer() //스테이지별 타이머
+    {
+        stageTime = initGame.stageTimes[stageNumber - 1];
+        float countTime = stageTime;
+        while (countTime > 0f)
+        {
+            countTime -= Time.deltaTime;
+            timeText.text = ConvertSecondsLikeClock(countTime);
+            stageTimerSlider.value = Mathf.Lerp(0f, 1f, (stageTime - countTime) / stageTime);
+            yield return null;
+        }
+        timeText.text = "<b>Time Out</b>";
+    }
+
+    private string ConvertSecondsLikeClock(float seconds) //남은 초 시계처럼 보여주기
     {
         int minute = (int)(seconds / 60f);
         int second = (int)(seconds % 60f % 60f);
@@ -79,39 +92,45 @@ public class Windshield : MonoBehaviour
         return "<b>" + minute + ":" + second + "</b>";
     }
 
-    private IEnumerator StageTimer()
-    {
-        //stageTime = initGame.stageTimes[stageNumber - 1].minute;
-        stageTime = initGame.stageTimes[stageNumber - 1];
-        while (stageTime > 0f)
-        {
-            stageTime -= Time.deltaTime;
-            timeText.text = ConvertSecondsLikeClock(stageTime);
-            stageTimer.value = Mathf.Lerp(0f, 1f, (initGame.stageTimes[stageNumber - 1] - stageTime)
-                / initGame.stageTimes[stageNumber - 1]);
-            yield return null;
-        }
-        timeText.text = "<b>Time Out</b>";
-    }
-
-    public IEnumerator TallerTime()
+    public IEnumerator SpeedUpTimer()
     {
         float elaspedTime = 0f;
-        float tallerTime = 3f;
+        float tallerTime = 5f;
 
-        tallerTimer.value = elaspedTime;
+        playerController.velocity = 2f;
+
         while (elaspedTime < tallerTime)
         {
             elaspedTime += Time.deltaTime;
-            tallerTimer.value = Mathf.Lerp(0f, tallerTime, elaspedTime / 3f);
+            speedTimerSlider.value = Mathf.Lerp(0f, 1f, elaspedTime / tallerTime);
+            yield return null;
+        }
+
+        playerController.velocity = 1f;
+        elaspedTime = 0f;
+        speedTimerSlider.value = 0f;
+    }
+
+    public IEnumerator TallerTimer() //키 커졌을때
+    {
+        float elaspedTime = 0f;
+        float tallerTime = 5f;
+
+        while (elaspedTime < tallerTime)
+        {
+            elaspedTime += Time.deltaTime;
+            tallerTimerSlider.value = Mathf.Lerp(0f, 1f, elaspedTime / tallerTime);
             yield return null;
         }
 
         elaspedTime = 0f;
-        tallerTimer.value = 0f;
+        tallerTimerSlider.value = 0f;
+
+        playerController.body.transform.position = new Vector3(playerController.player.transform.position.x,
+            1f, playerController.player.transform.position.z);
     }
 
-    private void CurrentStage()
+    private void CurrentStage() //현재 스테이지 갱신
     {
         stageNumber = (5 - trophys.transform.childCount);
         if (trophys.transform.childCount != 0)
