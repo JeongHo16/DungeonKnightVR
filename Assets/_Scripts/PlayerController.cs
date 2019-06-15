@@ -11,12 +11,9 @@ public class PlayerController : MonoBehaviour
     public float velocity = 0.7f;
     public bool walking = false;
 
-    //public float gravity = 9.8f;
-
     private CharacterController controller;
     private Clicker cliker = new Clicker();
 
-    //private float verticalVelocity = 0.0f;
     private Vector3 moveDirection = Vector3.zero;
 
     void Start()
@@ -54,7 +51,6 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         CollideTrophy(other);
-        //CollideGhost(other);
         CollideTallerItem(other);
     }
 
@@ -63,20 +59,11 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Trophy"))
         {
             walking = !walking;
-            //controller.Move(Spot.firstSpot);
-            //controller.Move(new Vector3(3.0f, 0.5f, 3.0f));
             Destroy(other.gameObject);
+            StartCoroutine(windshield.ShowTextForShortTime(3f, "<b>Stage Claer</b>"));
         }
     }
 
-    //private void CollideGhost(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("Ghost"))
-    //    {
-    //        windshield.AttackedByGhost();
-    //        Destroy(other.gameObject);
-    //    }
-    //}
 
     private void CollideTallerItem(Collider other)
     {
@@ -88,6 +75,15 @@ public class PlayerController : MonoBehaviour
             body.transform.position = new Vector3(player.transform.position.x, 1f, player.transform.position.z);
         }
     }
+
+    //private void CollideGhost(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Ghost"))
+    //    {
+    //        windshield.AttackedByGhost();
+    //        Destroy(other.gameObject);
+    //    }
+    //}
 
     //private IEnumerator EventTime()
     //{

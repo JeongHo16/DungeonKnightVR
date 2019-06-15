@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Jewel : MonoBehaviour
+public class Trophy : MonoBehaviour
 {
     private void Update()
     {

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Windshield : MonoBehaviour
 {
+    public InitGame initGame;
+
     public Slider stageTimer;
     public Slider speedTimer;
     public Slider tallerTimer;
@@ -13,16 +15,32 @@ public class Windshield : MonoBehaviour
     public GameObject trophys;
 
     private float stageTime;
+    private int stageNumber;
 
     private void Start()
     {
-        //stageTime = 5f;
+        CurrentStage();
+        stageTime = initGame.stageTimes[stageNumber - 1].minute;
     }
 
     private void Update()
     {
-        ShowCurrentState();
         StageTimer();
+    }
+
+    public IEnumerator ShowTextForShortTime(float duration, string text)
+    {
+        stageText.text = text;
+        yield return new WaitForSeconds(duration);
+        CurrentStage();
+    }
+
+    private string ConvertSecondsLikeClock(float seconds)
+    {
+        int minute = (int)(seconds / 60f);
+        int second = (int)(seconds % 60f % 60f);
+
+        return "<b>" + minute + ":" + second + "</b>";
     }
 
     private void StageTimer()
@@ -30,20 +48,15 @@ public class Windshield : MonoBehaviour
         if (stageTime > 0f)
         {
             stageTime -= Time.deltaTime;
-            timeText.text = "<b>" + ((Mathf.Round(stageTime * 100f)) / 100f).ToString() + "</b>";
-            stageTimer.value = Mathf.Lerp(0f, stageTimer.maxValue, (5f - stageTime) / 5f);
+            timeText.text = ConvertSecondsLikeClock(stageTime);
+            stageTimer.value = Mathf.Lerp(0f, 1f, (initGame.stageTimes[stageNumber - 1].minute - stageTime)
+                / initGame.stageTimes[stageNumber - 1].minute);
         }
         else
         {
             timeText.text = "<b>Time Out</b>";
             //stageTimer.value = 0f;
         }
-    }
-
-    private void ShowCurrentState()
-    {
-        CurrentStage();
-        //UpdateHP();
     }
 
     public IEnumerator TallerTime()
@@ -63,10 +76,11 @@ public class Windshield : MonoBehaviour
         tallerTimer.value = 0f;
     }
 
-    private void CurrentStage()
+    public void CurrentStage()
     {
+        stageNumber = (5 - trophys.transform.childCount);
         if (trophys.transform.childCount != 0)
-            stageText.text = "<b>Stage " + (5 - trophys.transform.childCount) + "</b>";
+            stageText.text = "<b>Stage " + stageNumber + "</b>";
         else
             stageText.text = "<b>Game Clear</b>";
     }
