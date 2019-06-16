@@ -144,7 +144,7 @@ public class Windshield : MonoBehaviour
         auidoSources.speedUpSound.Play();
         BoolStates.isSpeedUp = true;
         float elaspedTime = 0f;
-        float tallerTime = 3f;
+        float tallerTime = 60f;
 
         playerController.velocity = 2f;
 
@@ -167,7 +167,7 @@ public class Windshield : MonoBehaviour
         auidoSources.tallerSound.Play();
         BoolStates.isTaller = true;
         float elaspedTime = 0f;
-        float tallerTime = 3f;
+        float tallerTime = 40f;
 
         while (elaspedTime < tallerTime)
         {

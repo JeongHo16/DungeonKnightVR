@@ -56,27 +56,12 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Trophy"))
-        {
             CollideTrophy(other);
-        }
 
         if (other.gameObject.CompareTag("TallerItem"))
-        {
             CollideTallerItem(other);
-        }
-
-        if (other.gameObject.CompareTag("SpeedItem"))
-        {
+        else if (other.gameObject.CompareTag("SpeedItem"))
             CollideSpeedUpItem(other);
-        }
-
-        if (other.gameObject.CompareTag("Item"))
-        {
-            if (GetItemType().Equals("TallerItem"))
-                CollideTallerItem(other);
-            else
-                CollideSpeedUpItem(other);
-        }
     }
 
     private void CollideTrophy(Collider other)
@@ -99,32 +84,25 @@ public class PlayerController : MonoBehaviour
         windshield.StartItemCoroutine("SpeedUpItem");
     }
 
-
-    private string GetItemType()
-    {
-        if (Random.Range(0f, 1f) > 0.5)
-        {
-            Debug.Log("Get TallerItem");
-            return "TallerItem";
-        }
-        else
-        {
-            Debug.Log("Get SpeedUpItem");
-            return "SpeedUpItem";
-        }
-    }
-
-    //private void CollideGhost(Collider other)
+    //if (other.gameObject.CompareTag("Item"))
     //{
-    //    if (other.gameObject.CompareTag("Ghost"))
-    //    {
-    //        windshield.AttackedByGhost();
-    //        Destroy(other.gameObject);
-    //    }
+    //    if (GetItemType().Equals("TallerItem"))
+    //        CollideTallerItem(other);
+    //    else
+    //        CollideSpeedUpItem(other);
     //}
 
-    //private IEnumerator EventTime()
+    //private string GetItemType()
     //{
-
+    //    if (Random.Range(0f, 1f) > 0.5)
+    //    {
+    //        Debug.Log("Get TallerItem");
+    //        return "TallerItem";
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("Get SpeedUpItem");
+    //        return "SpeedUpItem";
+    //    }
     //}
 }
