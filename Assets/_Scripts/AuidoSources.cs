@@ -9,4 +9,18 @@ public class AuidoSources : MonoBehaviour
     public AudioSource speedUpSound;
     public AudioSource speedDownSound;
     public AudioSource getTrophySound;
+    public AudioSource bgm;
+
+    private void Update()
+    {
+        PlayBGM();
+    }
+
+    private void PlayBGM()
+    {
+        if (!bgm.isPlaying)
+        {
+            bgm.Play();
+        }
+    }
 }
