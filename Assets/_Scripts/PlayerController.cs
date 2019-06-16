@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     public Windshield windshield;
     public GameObject player;
     public GameObject body;
+    public GameObject cube;
 
     public float velocity = 1f;
     public bool walking = false;
@@ -64,21 +65,28 @@ public class PlayerController : MonoBehaviour
             CollideSpeedUpItem(other);
     }
 
-    private void CollideTrophy(Collider other)
+    private void LocatePlayer()
     {
-        walking = !walking;
-        Destroy(other.gameObject);
-        StartCoroutine(windshield.GoToTheNextStage(3f, "<b>Stage Claer</b>"));
+        cube.transform.position = Spot.spots[windshield.stageNumber - 1];
+        Debug.Log(windshield.stageNumber);
     }
 
-    private void CollideTallerItem(Collider other)
+    private void CollideTrophy(Collider other) //트로피 얻었을 때
+    {
+        walking = !walking; //수정필요
+        Destroy(other.gameObject);
+        StartCoroutine(windshield.GoToTheNextStage(3f, "<b>Stage Claer</b>"));
+        LocatePlayer();
+    }
+
+    private void CollideTallerItem(Collider other) //키커지는 아이템
     {
         Destroy(other.gameObject);
         body.transform.position = new Vector3(player.transform.position.x, 5f, player.transform.position.z);
         windshield.StartItemCoroutine("TallerItem");
     }
 
-    private void CollideSpeedUpItem(Collider other)
+    private void CollideSpeedUpItem(Collider other) //속도업 아이템
     {
         Destroy(other.gameObject);
         windshield.StartItemCoroutine("SpeedUpItem");

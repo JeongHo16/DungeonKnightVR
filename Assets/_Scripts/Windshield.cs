@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Windshield : MonoBehaviour
 {
-    public InitGame initGame;
+    //public InitGame initGame;
     public PlayerController playerController;
     public AuidoSources auidoSources;
 
@@ -15,8 +15,10 @@ public class Windshield : MonoBehaviour
     public Text stageText;
     public Text timeText;
 
+    public int[] stageTimes;
+
     private float stageTime;
-    private int stageNumber = 1;
+    public int stageNumber = 1;
 
     private IEnumerator Start()
     {
@@ -49,9 +51,11 @@ public class Windshield : MonoBehaviour
     public IEnumerator GoToTheNextStage(float duration, string text) //클리어 메시지 나타내고, 카운트 세고, InitWindShield()
     {                                                                //스테이지 4에서는 game clear
         auidoSources.getTrophySound.Play();
+
         StopCoroutine("StageTimer");
         timeText.text = "<b>00:00</b>";
         ResetAndStopItemCoroutine();
+
         BoolStates.isCount = true;
 
         if (stageNumber != 4) //stage 4 시작시 까지
@@ -75,7 +79,7 @@ public class Windshield : MonoBehaviour
 
     private IEnumerator StageTimer() //스테이지별 타이머
     {
-        stageTime = initGame.stageTimes[stageNumber - 1];
+        stageTime = stageTimes[stageNumber - 1];
         float countTime = stageTime;
         while (countTime > 0f)
         {
