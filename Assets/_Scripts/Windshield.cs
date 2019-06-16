@@ -7,6 +7,7 @@ public class Windshield : MonoBehaviour
 {
     public InitGame initGame;
     public PlayerController playerController;
+    public AuidoSources auidoSources;
 
     public Slider stageTimerSlider;
     public Slider speedTimerSlider;
@@ -47,6 +48,7 @@ public class Windshield : MonoBehaviour
 
     public IEnumerator GoToTheNextStage(float duration, string text) //클리어 메시지 나타내고, 카운트 세고, InitWindShield()
     {                                                                //스테이지 4에서는 game clear
+        auidoSources.getTrophySound.Play();
         StopCoroutine("StageTimer");
         timeText.text = "<b>00:00</b>";
         ResetAndStopItemCoroutine();
@@ -139,9 +141,10 @@ public class Windshield : MonoBehaviour
 
     public IEnumerator SpeedUpTimer()
     {
+        auidoSources.speedUpSound.Play();
         BoolStates.isSpeedUp = true;
         float elaspedTime = 0f;
-        float tallerTime = 60f;
+        float tallerTime = 3f;
 
         playerController.velocity = 2f;
 
@@ -156,13 +159,15 @@ public class Windshield : MonoBehaviour
         elaspedTime = 0f;
         speedTimerSlider.value = 0f;
         BoolStates.isSpeedUp = false;
+        auidoSources.speedDownSound.Play();
     }
 
     public IEnumerator TallerTimer() //키 커졌을때
     {
+        auidoSources.tallerSound.Play();
         BoolStates.isTaller = true;
         float elaspedTime = 0f;
-        float tallerTime = 30f;
+        float tallerTime = 3f;
 
         while (elaspedTime < tallerTime)
         {
@@ -177,6 +182,7 @@ public class Windshield : MonoBehaviour
         playerController.body.transform.position = new Vector3(playerController.player.transform.position.x,
             1f, playerController.player.transform.position.z);
         BoolStates.isTaller = false;
+        auidoSources.smallerSound.Play();
     }
 
     private void CurrentStage() //현재 스테이지 갱신
