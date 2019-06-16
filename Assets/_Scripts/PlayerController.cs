@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
     private void CollideTallerItem(Collider other)
     {
-        body.transform.position = new Vector3(player.transform.position.x, 3f, player.transform.position.z);
+        body.transform.position = new Vector3(player.transform.position.x, 5f, player.transform.position.z);
         Destroy(other.gameObject);
         StartCoroutine(windshield.TallerTimer());
     }

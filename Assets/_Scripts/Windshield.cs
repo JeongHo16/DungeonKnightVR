@@ -95,7 +95,7 @@ public class Windshield : MonoBehaviour
     public IEnumerator SpeedUpTimer()
     {
         float elaspedTime = 0f;
-        float tallerTime = 5f;
+        float tallerTime = 60f;
 
         playerController.velocity = 2f;
 
@@ -114,7 +114,7 @@ public class Windshield : MonoBehaviour
     public IEnumerator TallerTimer() //키 커졌을때
     {
         float elaspedTime = 0f;
-        float tallerTime = 5f;
+        float tallerTime = 30f;
 
         while (elaspedTime < tallerTime)
         {
