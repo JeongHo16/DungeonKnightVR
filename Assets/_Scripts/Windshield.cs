@@ -16,7 +16,7 @@ public class Windshield : MonoBehaviour
     public GameObject trophys;
 
     private float stageTime;
-    private int stageNumber;
+    private int stageNumber = 1;
 
     private IEnumerator Start()
     {
@@ -28,7 +28,7 @@ public class Windshield : MonoBehaviour
     private IEnumerator CountForStageStart() //시작전 3, 2, 1 세는 함수
     {
         int Count = 3;
-        BoolStates.isCount = false;
+        BoolStates.isCount = true;
 
         while (Count > 0)
         {
@@ -37,7 +37,7 @@ public class Windshield : MonoBehaviour
             Count -= 1;
         }
 
-        BoolStates.isCount = true;
+        BoolStates.isCount = false;
     }
 
     private void InitWindShield() //윈드쉴드 스테이지 갱신, 타이머 시작
@@ -50,13 +50,15 @@ public class Windshield : MonoBehaviour
     {                                                                //스테이지 4에서는 game clear
         StopCoroutine("StageTimer");
         timeText.text = "<b>00:00</b>";
-        BoolStates.isCount = false;
+        ResetAndStopItemCoroutine();
+        BoolStates.isCount = true;
 
         if (stageNumber != 4) //stage 4 시작시 까지
         {
+            stageNumber += 1;
             stageText.text = text;
             yield return new WaitForSeconds(duration);
-            BoolStates.isCount = true;
+            BoolStates.isCount = false;
 
             StartCoroutine("CountForStageStart");
             yield return new WaitForSeconds(duration);
@@ -66,7 +68,7 @@ public class Windshield : MonoBehaviour
         else
         {
             stageText.text = "<b>Game Clear</b>";
-            BoolStates.isCount = true;
+            BoolStates.isCount = false;
         }
     }
 
@@ -89,11 +91,56 @@ public class Windshield : MonoBehaviour
         int minute = (int)(seconds / 60f);
         int second = (int)(seconds % 60f % 60f);
 
-        return "<b>" + minute + ":" + second + "</b>";
+        if (second > 9)
+            return "<b>" + minute + ":" + second + "</b>";
+        else
+            return "<b>" + minute + ":0" + second + "</b>";
+    }
+
+    private void ResetAndStopItemCoroutine()
+    {
+        stageTimerSlider.value = 0;
+
+        if (BoolStates.isTaller == true)
+        {
+            StopCoroutine("TallerTimer");
+            tallerTimerSlider.value = 0;
+        }
+
+        if (BoolStates.isSpeedUp == true)
+        {
+            StopCoroutine("SpeedUpTimer");
+            speedTimerSlider.value = 0;
+        }
+    }
+
+    public void StartItemCoroutine(string itemType)
+    {
+        if (itemType.Equals("TallerItem"))
+        {
+            if (BoolStates.isTaller == false)
+                StartCoroutine("TallerTimer");
+            else
+            {
+                StopCoroutine("TallerTimer");
+                StartCoroutine("TallerTimer");
+            }
+        }
+        else
+        {
+            if (BoolStates.isSpeedUp == false)
+                StartCoroutine("SpeedUpTimer");
+            else
+            {
+                StopCoroutine("SpeedUpTimer");
+                StartCoroutine("SpeedUpTimer");
+            }
+        }
     }
 
     public IEnumerator SpeedUpTimer()
     {
+        BoolStates.isSpeedUp = true;
         float elaspedTime = 0f;
         float tallerTime = 60f;
 
@@ -109,10 +156,12 @@ public class Windshield : MonoBehaviour
         playerController.velocity = 1f;
         elaspedTime = 0f;
         speedTimerSlider.value = 0f;
+        BoolStates.isSpeedUp = false;
     }
 
     public IEnumerator TallerTimer() //키 커졌을때
     {
+        BoolStates.isTaller = true;
         float elaspedTime = 0f;
         float tallerTime = 30f;
 
@@ -128,11 +177,12 @@ public class Windshield : MonoBehaviour
 
         playerController.body.transform.position = new Vector3(playerController.player.transform.position.x,
             1f, playerController.player.transform.position.z);
+        BoolStates.isTaller = false;
     }
 
     private void CurrentStage() //현재 스테이지 갱신
     {
-        stageNumber = (5 - trophys.transform.childCount);
+        //stageNumber = (5 - trophys.transform.childCount);
         if (trophys.transform.childCount != 0)
             stageText.text = "<b>Stage " + stageNumber + "</b>";
     }

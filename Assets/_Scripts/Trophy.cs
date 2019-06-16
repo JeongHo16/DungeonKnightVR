@@ -8,7 +8,6 @@ public class Trophy : MonoBehaviour
     float y;
     private void Update()
     {
-        //transform.Rotate(new Vector3(0, 180, 0) * Time.deltaTime);
         y = transform.position.y;
         y += velocity * Time.deltaTime;
 

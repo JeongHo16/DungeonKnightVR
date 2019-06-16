@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (BoolStates.isCount)
+        if (!BoolStates.isCount)
         {
             if (cliker.clicked())
                 walking = !walking;
@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.CompareTag("SpeedItem"))
         {
-            CollideSpeedItem(other);
+            CollideSpeedUpItem(other);
         }
 
         if (other.gameObject.CompareTag("Item"))
@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
             if (GetItemType().Equals("TallerItem"))
                 CollideTallerItem(other);
             else
-                CollideSpeedItem(other);
+                CollideSpeedUpItem(other);
         }
     }
 
@@ -84,24 +84,30 @@ public class PlayerController : MonoBehaviour
 
     private void CollideTallerItem(Collider other)
     {
-        body.transform.position = new Vector3(player.transform.position.x, 5f, player.transform.position.z);
         Destroy(other.gameObject);
-        StartCoroutine(windshield.TallerTimer());
+        body.transform.position = new Vector3(player.transform.position.x, 5f, player.transform.position.z);
+        windshield.StartItemCoroutine("TallerItem");
     }
 
-    private void CollideSpeedItem(Collider other)
+    private void CollideSpeedUpItem(Collider other)
     {
         Destroy(other.gameObject);
-        StartCoroutine(windshield.SpeedUpTimer());
+        windshield.StartItemCoroutine("SpeedUpItem");
     }
 
 
     private string GetItemType()
     {
         if (Random.Range(0f, 1f) > 0.5)
+        {
+            Debug.Log("Get TallerItem");
             return "TallerItem";
+        }
         else
-            return "SpeedItem";
+        {
+            Debug.Log("Get SpeedUpItem");
+            return "SpeedUpItem";
+        }
     }
 
     //private void CollideGhost(Collider other)
