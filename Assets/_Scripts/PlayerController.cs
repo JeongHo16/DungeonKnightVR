@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     public float velocity = 1f;
     public bool walking = false;
 
+    //private float verticalVelocity =0f;
+    //private float gravity = 9.8f;
+
     private CharacterController controller;
     private Clicker cliker = new Clicker();
 
@@ -46,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
         //moveDirection.y = verticalVelocity;
         //verticalVelocity -= gravity * Time.deltaTime;
+
         controller.Move(moveDirection * Time.deltaTime);
     }
 
