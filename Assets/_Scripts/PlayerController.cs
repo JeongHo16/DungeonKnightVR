@@ -65,6 +65,14 @@ public class PlayerController : MonoBehaviour
         {
             CollideSpeedItem(other);
         }
+
+        if (other.gameObject.CompareTag("Item"))
+        {
+            if (GetItemType().Equals("TallerItem"))
+                CollideTallerItem(other);
+            else
+                CollideSpeedItem(other);
+        }
     }
 
     private void CollideTrophy(Collider other)
