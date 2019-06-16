@@ -13,7 +13,6 @@ public class Windshield : MonoBehaviour
     public Slider tallerTimerSlider;
     public Text stageText;
     public Text timeText;
-    public GameObject trophys;
 
     private float stageTime;
     private int stageNumber = 1;
@@ -182,8 +181,6 @@ public class Windshield : MonoBehaviour
 
     private void CurrentStage() //현재 스테이지 갱신
     {
-        //stageNumber = (5 - trophys.transform.childCount);
-        if (trophys.transform.childCount != 0)
-            stageText.text = "<b>Stage " + stageNumber + "</b>";
+        stageText.text = "<b>Stage " + stageNumber + "</b>";
     }
 }
