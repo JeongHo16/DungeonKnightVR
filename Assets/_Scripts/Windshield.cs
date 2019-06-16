@@ -18,7 +18,7 @@ public class Windshield : MonoBehaviour
     public int[] stageTimes;
 
     private float stageTime;
-    public int stageNumber = 1;
+    private int stageNumber = 1;
 
     private IEnumerator Start()
     {
@@ -46,6 +46,7 @@ public class Windshield : MonoBehaviour
     {
         CurrentStage();
         StartCoroutine("StageTimer");
+        playerController.LocatePlayer();
     }
 
     public IEnumerator GoToTheNextStage(float duration, string text) //클리어 메시지 나타내고, 카운트 세고, InitWindShield()

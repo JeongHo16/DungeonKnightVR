@@ -9,6 +9,10 @@ TagManager:
   - SpeedItem
   - Ghost
   - Item
+  - projectile
+  - FxTemporaire
+  - wall
+  - floor
   layers:
   - Default
   - TransparentFX

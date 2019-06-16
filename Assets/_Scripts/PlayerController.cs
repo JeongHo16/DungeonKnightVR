@@ -1,55 +1,51 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR;
 
 public class PlayerController : MonoBehaviour
 {
     public Windshield windshield;
     public GameObject player;
     public GameObject body;
-    public GameObject cube;
+    public GameObject rightController;
+    //public GameObject tester;
 
     public float velocity = 1f;
     public bool walking = false;
 
-    //private float verticalVelocity =0f;
-    //private float gravity = 9.8f;
-
+    private SteamVR_Action_Boolean act;
     private CharacterController controller;
     private Clicker cliker = new Clicker();
 
     private Vector3 moveDirection = Vector3.zero;
+    private int stageNum = 1;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        act = SteamVR_Input.GetBooleanAction("GrabPinch");
+        LocatePlayer();
     }
 
     void Update()
     {
         MovePlayer();
-    }
+    }    
 
     private void MovePlayer()
     {
         if (!BoolStates.isCount)
         {
+            //if (act.GetState(SteamVR_Input_Sources.RightHand))
             if (cliker.clicked())
                 walking = !walking;
         }
 
         if (walking)
-        {
-            moveDirection = Camera.main.transform.forward * velocity;
-        }
+            moveDirection = rightController.transform.rotation * Vector3.forward * velocity;
         else
             moveDirection = Vector3.zero;
-
-        //if (controller.isGrounded)
-        //    verticalVelocity = 0.0f;
-
-        //moveDirection.y = verticalVelocity;
-        //verticalVelocity -= gravity * Time.deltaTime;
 
         controller.Move(moveDirection * Time.deltaTime);
     }
@@ -57,7 +53,10 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Trophy"))
+        {
             CollideTrophy(other);
+            //LocatePlayer();
+        }
 
         if (other.gameObject.CompareTag("TallerItem"))
             CollideTallerItem(other);
@@ -65,18 +64,23 @@ public class PlayerController : MonoBehaviour
             CollideSpeedUpItem(other);
     }
 
-    private void LocatePlayer()
+    public void LocatePlayer()
     {
-        cube.transform.position = Spot.spots[windshield.stageNumber - 1];
-        Debug.Log(windshield.stageNumber);
+        if (stageNum != 4)
+        {
+            //cube.transform.position = Spot.spots[windshield.stageNumber - 1];
+            player.transform.position = Spot.spots[stageNum - 1];
+            Debug.Log(stageNum);
+            stageNum += 1;
+        }
     }
 
     private void CollideTrophy(Collider other) //트로피 얻었을 때
     {
-        walking = !walking; //수정필요
+        walking = !walking;
         Destroy(other.gameObject);
         StartCoroutine(windshield.GoToTheNextStage(3f, "<b>Stage Claer</b>"));
-        LocatePlayer();
+        //LocatePlayer();
     }
 
     private void CollideTallerItem(Collider other) //키커지는 아이템
@@ -91,6 +95,83 @@ public class PlayerController : MonoBehaviour
         Destroy(other.gameObject);
         windshield.StartItemCoroutine("SpeedUpItem");
     }
+
+    //private void MovePlayer()
+    //{
+    //    Transform direction = rightController.transform;
+    //    Ray ray;
+    //    RaycastHit[] hits;
+    //    GameObject hitObject;
+
+    //    ray = new Ray(direction.position, direction.rotation * Vector3.forward * 100.0f);
+
+    //    hits = Physics.RaycastAll(ray);
+
+    //    RaycastHit hit = hits[0];
+    //    hitObject = hit.collider.gameObject;
+    //    if (hitObject != player)
+    //    {
+    //        Debug.Log(hitObject);
+    //        if (/*act.GetState(SteamVR_Input_Sources.RightHand)*/walking)
+    //        {
+    //            float elapsedTime = 0f;
+    //            while (elapsedTime < velocity)
+    //            {
+    //                Vector3 targetPos = new Vector3(hit.point.x, 1.5f, hit.point.z);
+    //                elapsedTime += Time.deltaTime;
+    //                player.transform.position = Vector3.Lerp(Vector3.zero, targetPos, elapsedTime / 10f);
+    //            }
+    //            //player.transform.position = new Vector3((Mathf.Lerp(player.transform.position.x, hit.point.x, player.transform.position.x / hit.point.x), 1.5f, hit.point.z);
+    //            //if (player.transform.position.x < hit.point.x)
+    //            //{
+    //            //    player.transform.Translate(Vector3.right * velocity * Time.deltaTime);
+    //            //}
+    //            //else if (player.transform.position.x > hit.point.x)
+    //            //{
+    //            //    player.transform.Translate(Vector3.left * velocity * Time.deltaTime);
+    //            //}
+
+    //            //if (player.transform.position.z < hit.point.z)
+    //            //{
+    //            //    player.transform.Translate(Vector3.forward * velocity * Time.deltaTime);
+    //            //}
+    //            //else if (player.transform.position.z > hit.point.z)
+    //            //{
+    //            //    player.transform.Translate(Vector3.back * velocity * Time.deltaTime);
+    //            //}
+
+    //            //letsgo.transform.position = new Vector3(hit.point.x, 0.01f, hit.point.z);
+    //        }
+    //        //else
+    //        //{
+    //        //    letsgo.transform.position = new Vector3(0.0f, -1.0f, 0.0f);
+    //        //}
+    //    }
+    //}
+    //private void MovePlayer()
+    //{
+    //    if (!BoolStates.isCount)
+    //    {
+    //        if (cliker.clicked())
+    //            walking = !walking;
+    //    }
+
+    //    if (walking)
+    //    {
+    //        //moveDirection = Camera.main.transform.forward * velocity;
+    //        moveDirection = rightController.transform.rotation * Vector3.forward * velocity;
+    //    }
+    //    else
+    //        moveDirection = Vector3.zero;
+
+    //    //if (controller.isGrounded)
+    //    //    verticalVelocity = 0.0f;
+
+    //    //moveDirection.y = verticalVelocity;
+    //    //verticalVelocity -= gravity * Time.deltaTime;
+
+    //    controller.Move(moveDirection * Time.deltaTime);
+    //}
 
     //if (other.gameObject.CompareTag("Item"))
     //{
