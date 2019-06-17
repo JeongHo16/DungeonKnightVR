@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Windshield : MonoBehaviour
 {
-    //public InitGame initGame;
     public PlayerController playerController;
     public AuidoSources auidoSources;
 
@@ -18,7 +18,6 @@ public class Windshield : MonoBehaviour
     public int[] stageTimes;
 
     private float stageTime;
-    private int stageNumber = 1;
 
     private IEnumerator Start()
     {
@@ -46,10 +45,21 @@ public class Windshield : MonoBehaviour
     {
         CurrentStage();
         StartCoroutine("StageTimer");
-        //playerController.LocatePlayer();
     }
 
-    public IEnumerator GoToTheNextStage(float duration, string text) //클리어 메시지 나타내고, 카운트 세고, InitWindShield()
+    private void LoadScene()
+    {
+        if (playerController.sceneName == "Stage1")
+            SceneManager.LoadScene("Stage2");
+        else if (playerController.sceneName == "Stage2")
+            SceneManager.LoadScene("Stage3");
+        else if (playerController.sceneName == "Stage3")
+            SceneManager.LoadScene("Stage4");
+        else if (playerController.sceneName == "Stage4")
+            SceneManager.LoadScene("End");
+    }
+
+    public IEnumerator GoToTheNextStage(float duration) //클리어 메시지 나타내고, 카운트 세고, InitWindShield()
     {                                                                //스테이지 4에서는 game clear
         auidoSources.getTrophySound.Play();
 
@@ -57,30 +67,30 @@ public class Windshield : MonoBehaviour
         timeText.text = "<b>00:00</b>";
         ResetAndStopItemCoroutine();
 
-        BoolStates.isCount = true;
+        stageText.text = "<b>Stage Clear</b>";
+        yield return new WaitForSeconds(duration);
 
-        if (stageNumber != 4) //stage 4 시작시 까지
-        {
-            stageNumber += 1;
-            stageText.text = text;
-            yield return new WaitForSeconds(duration);
-            BoolStates.isCount = false;
+        LoadScene();
+    }
 
-            StartCoroutine("CountForStageStart");
-            yield return new WaitForSeconds(duration);
+    private int GetStageNumber()
+    {
+        if (playerController.sceneName == "Stage1")
+            return 0;
+        else if (playerController.sceneName == "Stage2")
+            return 1;
+        else if (playerController.sceneName == "Stage3")
+            return 2;
+        else if (playerController.sceneName == "Stage4")
+            return 3;
+        else
+            return 0;
 
-            InitWindShield();
-        }
-        else if (stageNumber == 1)
-        {
-            stageText.text = "<b>Game Clear</b>";
-            BoolStates.isCount = false;
-        }
     }
 
     private IEnumerator StageTimer() //스테이지별 타이머
     {
-        stageTime = stageTimes[stageNumber - 1];
+        stageTime = stageTimes[GetStageNumber()];
         float countTime = stageTime;
 
         while (countTime > 0f)
@@ -146,12 +156,12 @@ public class Windshield : MonoBehaviour
         }
     }
 
-    public IEnumerator SpeedUpTimer()
+    private IEnumerator SpeedUpTimer()
     {
         auidoSources.speedUpSound.Play();
         BoolStates.isSpeedUp = true;
         float elaspedTime = 0f;
-        float speedUpTime = 5f;
+        float speedUpTime = 30f;
 
         playerController.velocity = 4f;
 
@@ -170,12 +180,12 @@ public class Windshield : MonoBehaviour
         auidoSources.speedDownSound.Play();
     }
 
-    public IEnumerator TallerTimer() //키 커졌을때
+    private IEnumerator TallerTimer() //키 커졌을때
     {
         auidoSources.tallerSound.Play();
         BoolStates.isTaller = true;
         float elaspedTime = 0f;
-        float tallerTime = 5f;
+        float tallerTime = 10f;
 
         while (elaspedTime < tallerTime)
         {
@@ -195,6 +205,6 @@ public class Windshield : MonoBehaviour
 
     private void CurrentStage() //현재 스테이지 갱신
     {
-        stageText.text = "<b>Stage " + stageNumber + "</b>";
+        stageText.text = "<b>" + SceneManager.GetActiveScene().name + "</b>";
     }
 }

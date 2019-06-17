@@ -14,20 +14,28 @@ public class SceneChange : MonoBehaviour
     private void Start()
     {
         sceneName = SceneManager.GetActiveScene().name;
-        //Debug.Log(SceneManager.GetActiveScene().name);
         act = SteamVR_Input.GetBooleanAction("GrabPinch");
     }
 
     void Update()
     {
-        //if (act.GetStateUp(SteamVR_Input_Sources.RightHand))
+        //MouseChange();
+        ControllerChange();
+    }
+
+    private void MouseChange()
+    {
         if (cliker.clicked() && sceneName.Equals("Start"))
-        {
-            SceneManager.LoadScene("End");
-        }
+            SceneManager.LoadScene("Stage1");
         else if (cliker.clicked() && sceneName.Equals("End"))
-        {
             SceneManager.LoadScene("Start");
-        }
+    }
+
+    private void ControllerChange()
+    {
+        if (act.GetStateUp(SteamVR_Input_Sources.RightHand) && sceneName.Equals("Start"))
+            SceneManager.LoadScene("Stage1");
+        else if (act.GetStateUp(SteamVR_Input_Sources.RightHand) && sceneName.Equals("End"))
+            SceneManager.LoadScene("Start");
     }
 }
