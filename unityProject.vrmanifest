@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.dungeonknightvr.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "C:\\Users\\User\\Desktop\\VR수업(김정호)\\DungeonKnightVR\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "DungeonKnightVR [Testing]"
+        }
+      }
+    }
+  ]
+}

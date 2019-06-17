@@ -71,7 +71,7 @@ public class Windshield : MonoBehaviour
 
             InitWindShield();
         }
-        else
+        else if (stageNumber == 1)
         {
             stageText.text = "<b>Game Clear</b>";
             BoolStates.isCount = false;
@@ -151,9 +151,9 @@ public class Windshield : MonoBehaviour
         auidoSources.speedUpSound.Play();
         BoolStates.isSpeedUp = true;
         float elaspedTime = 0f;
-        float speedUpTime = 60f;
+        float speedUpTime = 5f;
 
-        playerController.velocity = 3f;
+        playerController.velocity = 4f;
 
         while (elaspedTime < speedUpTime)
         {
@@ -162,7 +162,7 @@ public class Windshield : MonoBehaviour
             yield return null;
         }
 
-        playerController.velocity = 1f;
+        playerController.velocity = 2f;
         elaspedTime = 0f;
         speedTimerSlider.value = 0f;
 
@@ -175,7 +175,7 @@ public class Windshield : MonoBehaviour
         auidoSources.tallerSound.Play();
         BoolStates.isTaller = true;
         float elaspedTime = 0f;
-        float tallerTime = 40f;
+        float tallerTime = 5f;
 
         while (elaspedTime < tallerTime)
         {
@@ -188,7 +188,7 @@ public class Windshield : MonoBehaviour
         tallerTimerSlider.value = 0f;
 
         playerController.body.transform.position = new Vector3(playerController.player.transform.position.x,
-            1f, playerController.player.transform.position.z);
+            1.5f, playerController.player.transform.position.z);
         BoolStates.isTaller = false;
         auidoSources.smallerSound.Play();
     }

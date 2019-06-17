@@ -14,10 +14,10 @@ public class PlayerController : MonoBehaviour
     public float velocity = 1f;
     public bool walking = false;
 
-    private SteamVR_Action_Boolean act;
     [SerializeField]
     private CharacterController controller;
-    private Clicker cliker = new Clicker();
+    private SteamVR_Action_Boolean act;
+    //private Clicker cliker = new Clicker();
 
     private Vector3 moveDirection = Vector3.zero;
     private int stageNum = 1;
@@ -38,8 +38,8 @@ public class PlayerController : MonoBehaviour
     {
         if (!BoolStates.isCount)
         {
-            //if (act.GetState(SteamVR_Input_Sources.RightHand))
-            if (cliker.clicked())
+            //if (cliker.clicked())
+            if (act.GetStateUp(SteamVR_Input_Sources.RightHand))
                 walking = !walking;
         }
 
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
     private void CollideTallerItem(Collider other) //키커지는 아이템
     {
         Destroy(other.gameObject);
-        body.transform.position = new Vector3(player.transform.position.x, 5f, player.transform.position.z);
+        body.transform.position = new Vector3(player.transform.position.x, 6f, player.transform.position.z);
         windshield.StartItemCoroutine("TallerItem");
     }
 
