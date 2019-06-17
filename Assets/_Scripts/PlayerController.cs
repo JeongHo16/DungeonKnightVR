@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public bool walking = false;
 
     private SteamVR_Action_Boolean act;
+    [SerializeField]
     private CharacterController controller;
     private Clicker cliker = new Clicker();
 
@@ -23,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        controller = GetComponent<CharacterController>();
+        //controller = GetComponent<CharacterController>();
         act = SteamVR_Input.GetBooleanAction("GrabPinch");
         LocatePlayer();
     }
@@ -31,7 +32,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         MovePlayer();
-    }    
+    }
 
     private void MovePlayer()
     {
@@ -54,8 +55,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Trophy"))
         {
-            CollideTrophy(other);
             //LocatePlayer();
+            CollideTrophy(other);
         }
 
         if (other.gameObject.CompareTag("TallerItem"))
@@ -68,15 +69,16 @@ public class PlayerController : MonoBehaviour
     {
         if (stageNum != 4)
         {
-            //cube.transform.position = Spot.spots[windshield.stageNumber - 1];
+            //controller.transform.position = Spot.spots[stageNum - 1];
             player.transform.position = Spot.spots[stageNum - 1];
-            Debug.Log(stageNum);
             stageNum += 1;
+            Debug.Log(stageNum);
         }
     }
 
     private void CollideTrophy(Collider other) //트로피 얻었을 때
     {
+        //LocatePlayer();
         walking = !walking;
         Destroy(other.gameObject);
         StartCoroutine(windshield.GoToTheNextStage(3f, "<b>Stage Claer</b>"));

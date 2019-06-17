@@ -46,7 +46,7 @@ public class Windshield : MonoBehaviour
     {
         CurrentStage();
         StartCoroutine("StageTimer");
-        playerController.LocatePlayer();
+        //playerController.LocatePlayer();
     }
 
     public IEnumerator GoToTheNextStage(float duration, string text) //클리어 메시지 나타내고, 카운트 세고, InitWindShield()
@@ -82,6 +82,7 @@ public class Windshield : MonoBehaviour
     {
         stageTime = stageTimes[stageNumber - 1];
         float countTime = stageTime;
+
         while (countTime > 0f)
         {
             countTime -= Time.deltaTime;
@@ -89,6 +90,7 @@ public class Windshield : MonoBehaviour
             stageTimerSlider.value = Mathf.Lerp(0f, 1f, (stageTime - countTime) / stageTime);
             yield return null;
         }
+
         timeText.text = "<b>Time Out</b>";
     }
 
@@ -149,20 +151,21 @@ public class Windshield : MonoBehaviour
         auidoSources.speedUpSound.Play();
         BoolStates.isSpeedUp = true;
         float elaspedTime = 0f;
-        float tallerTime = 60f;
+        float speedUpTime = 60f;
 
-        playerController.velocity = 2f;
+        playerController.velocity = 3f;
 
-        while (elaspedTime < tallerTime)
+        while (elaspedTime < speedUpTime)
         {
             elaspedTime += Time.deltaTime;
-            speedTimerSlider.value = Mathf.Lerp(0f, 1f, elaspedTime / tallerTime);
+            speedTimerSlider.value = Mathf.Lerp(0f, 1f, elaspedTime / speedUpTime);
             yield return null;
         }
 
         playerController.velocity = 1f;
         elaspedTime = 0f;
         speedTimerSlider.value = 0f;
+
         BoolStates.isSpeedUp = false;
         auidoSources.speedDownSound.Play();
     }
